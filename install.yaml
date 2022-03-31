@@ -1,0 +1,9 @@
+---
+- hosts: all
+
+  become: yes
+  tasks:
+  - name: install software
+    apt:
+      name: net-tools,nano,glances,iftop,ntpd
+      update_cache: yes

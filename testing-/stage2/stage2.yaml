@@ -1,0 +1,55 @@
+---
+- hosts: all
+  become: yes
+  tasks:
+  - name: Disable root login over SSH
+    lineinfile: dest=/etc/ssh/sshd_config regexp="^PermitRootLogin" line="PermitRootLogin no" state=present
+    notify:
+      - restart sshd
+  - name: Disable password login
+    lineinfile: dest=/etc/ssh/sshd_config regexp="^PasswordAuthentication" line="PasswordAuthentication no" state=present
+    notify:
+      - restart sshd
+
+
+  # - name: Git install oh-my-zsh
+  #   ansible.builtin.git:
+  #     repo: 'https://github.com/ohmyzsh/ohmyzsh.git'
+  #     dest: /home/lunchbox/.oh-my-zsh/
+  #   become: yes
+  #   become_user: lunchbox
+  # - name: Git install zsh autosuggestions
+  #   ansible.builtin.git:
+  #     repo: 'https://github.com/zsh-users/zsh-autosuggestions'
+  #     dest: /home/lunchbox/.oh-my-zsh/custom/plugins/zsh-autosuggestions
+  #   become: yes
+  #   become_user: lunchbox
+  # - name: Git install zsh syntax highlighting
+  #   ansible.builtin.git:
+  #     repo: 'https://github.com/zsh-users/zsh-syntax-highlighting'
+  #     dest: /home/lunchbox/.oh-my-zsh/custom/plugins/zsh-autosuggestions
+  #   become: yes
+  #   become_user: lunchbox
+  - name: install oh my zsh
+    copy:
+      src: configs/zshconfig/
+      dest: /home/lunchbox/.oh-my-zsh
+    become: yes
+    become_user: lunchbox
+  - name: copy zsh config
+    copy:
+      src: configs/zshconfig2
+      dest: /home/lunchbox/.zshrc
+
+
+
+
+
+
+
+
+  handlers:
+  - name: restart sshd
+    service:
+      name: sshd
+      state: restarted

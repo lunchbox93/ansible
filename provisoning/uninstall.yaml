@@ -1,0 +1,10 @@
+---
+- hosts: all
+
+  become: yes
+  tasks:
+  - name: remove software
+    apt:
+      name: bind9,apache2,postfix,dovecot
+      update_cache: yes
+      state: absent

@@ -1,0 +1,16 @@
+- name: Unconditionally reboot the machine with all defaults
+  reboot:
+
+- name: Reboot a slow machine that might have lots of updates to apply
+  reboot:
+    reboot_timeout: 3600
+
+- name: Reboot a machine with shutdown command in unusual place
+  reboot:
+    search_paths:
+     - '/lib/molly-guard'
+
+- name: Reboot machine using a custom reboot command
+  reboot:
+    reboot_command: launchctl reboot userspace
+    boot_time_command: uptime | cut -d ' ' -f 5

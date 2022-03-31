@@ -12,12 +12,12 @@
       - restart sshd
 
 
-  # - name: Git install oh-my-zsh
-  #   ansible.builtin.git:
-  #     repo: 'https://github.com/ohmyzsh/ohmyzsh.git'
-  #     dest: /home/lunchbox/.oh-my-zsh/
-  #   become: yes
-  #   become_user: lunchbox
+  - name: Install Oh-My-ZSH
+    ansible.builtin.git:
+      repo: 'https://github.com/lunchbox93/.oh-my-zsh.git'
+      dest: /home/lunchbox/.oh-my-zsh/
+    become: yes
+    become_user: lunchbox
   # - name: Git install zsh autosuggestions
   #   ansible.builtin.git:
   #     repo: 'https://github.com/zsh-users/zsh-autosuggestions'
@@ -30,12 +30,12 @@
   #     dest: /home/lunchbox/.oh-my-zsh/custom/plugins/zsh-autosuggestions
   #   become: yes
   #   become_user: lunchbox
-  - name: install oh my zsh
-    copy:
-      src: configs/zshconfig/
-      dest: /home/lunchbox/.oh-my-zsh
-    become: yes
-    become_user: lunchbox
+  # - name: install oh my zsh
+  #   copy:
+  #     src: configs/zshconfig/
+  #     dest: /home/lunchbox/.oh-my-zsh
+  #   become: yes
+  #   become_user: lunchbox
   - name: copy zsh config
     copy:
       src: configs/zshconfig2

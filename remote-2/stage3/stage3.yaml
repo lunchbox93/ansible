@@ -4,10 +4,17 @@
   tasks:
   - name: Install basic packages
     apt:
-      name: curl,ntp,nano,net-tools,wget,iftop
+      name: curl,ntp,nano,net-tools,wget,iftop,python3-pip
   - name: Install the packages for postfix and mysql
     apt:
-      name: postfix,postfix-mysql,postfix-doc,mariadb-client,mariadb-server,openssl,getmail4,rkhunter,binutils,dovecot-imapd,dovecot-pop3d,dovecot-mysql,dovecot-sieve,sudo,patch
+      name: postfix,postfix-mysql,postfix-doc,mariadb-client,mariadb-server,openssl,getmail4,rkhunter,python-mysqldb,binutils,dovecot-imapd,dovecot-pop3d,dovecot-mysql,dovecot-sieve,sudo,patch
+
+  - name: Make sure pymysql is present
+    become: true # needed if the other tasks are not played as root
+    pip:
+      name: pymysql
+      state: present
+
   - name: Install the packages for spamassassin and clamav
     apt:
       name: amavisd-new,spamassassin,clamav,clamav-daemon,unzip,bzip2,arj,nomarch,lzop,cabextract,apt-listchanges,libnet-ldap-perl,libauthen-sasl-perl,clamav-docs,daemon,libio-string-perl,libio-socket-ssl-perl,libnet-ident-perl,zip,libnet-dns-perl,postgrey
@@ -42,22 +49,22 @@
     ansible.builtin.service:
       name: clamav-daemon
       state: started
-  - name: Change the authentication plugin of MySQL root user to mysql_native_password
-    shell: mysql -u root -e 'UPDATE mysql.user SET plugin="mysql_native_password" WHERE user="root" AND host="localhost"'
-  - name: Flush Privileges
-    shell: mysql -u root -e 'FLUSH PRIVILEGES'
-  - name: Set MySQL root password
-    mysql_user:
-      login_host: 'localhost'
-      login_user: 'root'
-      login_password: ''
-      name: 'root'
-      password: 'mysqlpass'
-      state: present
+  # - name: Change the authentication plugin of MySQL root user to mysql_native_password
+  #   shell: mysql -u root -e 'UPDATE mysql.user SET plugin="mysql_native_password" WHERE user="root" AND host="localhost"'
+  # - name: Flush Privileges
+  #   shell: mysql -u root -e 'FLUSH PRIVILEGES'
+  # - name: Set MySQL root password
+  #   mysql_user:
+  #     login_host: 'localhost'
+  #     login_user: 'root'
+  #     login_password: ''
+  #     name: 'root'
+  #     password: 'mysqlpass'
+  #     state: present
 
   - name: Enable remote login to mysql
     lineinfile:
-      path: /etc/mysql/mysql.conf.d/mysqld.cnf
+      path: /etc/mysql/mariadb.conf.d/50-server.cnf
       regexp: '^bind-address'
       line: 'bind-address = 0.0.0.0'
       backup: yes

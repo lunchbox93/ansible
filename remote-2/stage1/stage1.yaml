@@ -18,8 +18,12 @@
       autoremove: yes
   - name: install software
     apt:
-      name: net-tools,nano,iftop,ntp,zsh,unzip,unrar,wget,curl,build-essential,git,git-core,fonts-powerline
+      name: net-tools,nano,iftop,ntp,zsh,unzip,unrar,wget,curl,build-essential,git,git-core,fonts-powerline,certbot,software-properties-common
       update_cache: yes
+  - name: Remove "foo" package
+    apt:
+      name: bind,sendmail,apparmor-utils
+      state: absent
 
   - name: add user lunchbox
     ansible.builtin.user:

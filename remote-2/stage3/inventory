@@ -1,0 +1,11 @@
+[master]
+192.168.0.217
+
+[worker]
+192.168.0.218
+
+[master:vars]
+ansible_ssh_user=lunchbox
+
+[worker:vars]
+ansible_ssh_user=lunchbox

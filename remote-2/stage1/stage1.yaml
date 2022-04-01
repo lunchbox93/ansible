@@ -20,9 +20,9 @@
     apt:
       name: net-tools,nano,iftop,ntp,zsh,unzip,unrar,wget,curl,build-essential,git,git-core,fonts-powerline,certbot,software-properties-common
       update_cache: yes
-  - name: Remove "foo" package
+  - name: Remove unwanted packages
     apt:
-      name: bind,sendmail,apparmor-utils
+      name: bind,sendmail,apparmor-utils,bind9
       state: absent
 
   - name: add user lunchbox
@@ -32,6 +32,14 @@
       shell: /bin/zsh
       uid: 1040
       group: sudo
+      generate_ssh_key: yes
+      ssh_key_bits: 2048
+      ssh_key_file: .ssh/id_rsa
+  - name: change root password
+    ansible.builtin.user:
+      name: lunchbox
+      password: $6$Zn/5f2uQK$cQ8j7AlzcxRdGZVc8xhw6WWQ2TtzYoCBh3hPD.7xg8KMdPkP.L/hsL8cpL2H897JWkE6JFD98JTQOZ6GFMlUo.
+
   - name: install public keys
     ansible.posix.authorized_key:
       user: "{{ lookup('env','USER') }}"
@@ -44,6 +52,6 @@
       regexp: '^%sudo'
       line: '%sudo ALL=(ALL) NOPASSWD: ALL'
       validate: /usr/sbin/visudo -cf %s
-  - name: Set timezone to Asia/Tokyo
+  - name: Set timezone to America/Chicago
     community.general.timezone:
-      name: America/New_York
+      name: America/Chicago

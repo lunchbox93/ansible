@@ -1,0 +1,45 @@
+---
+- hosts: all
+  become: yes
+  tasks:
+
+  - name: apt-get update
+    apt:
+      update_cache: yes
+  - name: apt-get upgrade
+    apt:
+      name: "*"
+      state: latest
+  - name: Remove useless packages from the cache
+    apt:
+      autoclean: yes
+  - name: Remove useless packages from the system
+    apt:
+      autoremove: yes
+  - name: install software
+    apt:
+      name: net-tools,nano,iftop,ntp,zsh,unzip,unrar,wget,curl,build-essential,git,git-core,fonts-powerline
+      update_cache: yes
+
+  - name: add user lunchbox
+    ansible.builtin.user:
+      name: lunchbox
+      comment: default user
+      shell: /bin/zsh
+      uid: 1040
+      group: sudo
+  - name: install public keys
+    ansible.posix.authorized_key:
+      user: "{{ lookup('env','USER') }}"
+      state: present
+      key: "{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
+  - name: change sudoers file
+    lineinfile:
+      path: /etc/sudoers
+      state: present
+      regexp: '^%sudo'
+      line: '%sudo ALL=(ALL) NOPASSWD: ALL'
+      validate: /usr/sbin/visudo -cf %s
+  - name: Set timezone to Asia/Tokyo
+    community.general.timezone:
+      name: America/New_York

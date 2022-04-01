@@ -1,0 +1,13 @@
+[master]
+192.168.0.217
+
+[worker]
+192.168.0.218
+
+[master:vars]
+ansible_ssh_user=vagrant
+ansible_ssh_pass=vagrant
+
+[worker:vars]
+ansible_ssh_user=vagrant
+ansible_ssh_pass=vagrant

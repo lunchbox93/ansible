@@ -1,0 +1,13 @@
+[master]
+168.235.89.69:22581
+
+[worker]
+167.88.117.14:22581
+
+[master:vars]
+ansible_ssh_user=root
+ansible_ssh_pass=FTuj295G5o8IitB3wZ
+
+[worker:vars]
+ansible_ssh_user=root
+ansible_ssh_pass=Z0qBz5p1n5K4GM7Adr

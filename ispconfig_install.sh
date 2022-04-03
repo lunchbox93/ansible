@@ -59,3 +59,25 @@ cd /tmp
 wget -O ispconfig.tar.gz https://www.ispconfig.org/downloads/ISPConfig-3-stable.tar.gz
 tar xfz ispconfig.tar.gz
 cd ispconfig3*/install/
+
+
+
+
+
+└─(02:13:43)──> sudo dpkg-reconfigure dash                                                                 1 ↵ ──(Fri,Apr01)─┘
+Removing 'diversion of /bin/sh to /bin/sh.distrib by dash'
+Adding 'diversion of /bin/sh to /bin/sh.distrib by bash'
+Removing 'diversion of /usr/share/man/man1/sh.1.gz to /usr/share/man/man1/sh.distrib.1.gz by dash'
+Adding 'diversion of /usr/share/man/man1/sh.1.gz to /usr/share/man/man1/sh.distrib.1.gz by bash'
+
+
+service clamav-daemon start
+
+a2enmod suexec rewrite ssl actions include cgi
+a2enmod dav_fs dav auth_digest headers
+
+a2enconf httpoxy
+
+a2enmod actions proxy_fcgi alias
+
+securemysqlinstall and debian.cnf

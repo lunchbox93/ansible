@@ -1,13 +1,26 @@
-[master]
-192.168.0.216
+[google1]
+34.139.64.217
+[google2]
+34.148.216.129
+[oracle]
+129.80.112.143
+[azure]
+20.126.22.212
+[aws]
+3.133.138.173
 
-[worker]
-192.168.0.219
 
-[master:vars]
-ansible_ssh_user=vagrant
-ansible_ssh_pass=vagrant
+[google1:vars]
+ansible_ssh_user=brett.condon
 
-[worker:vars]
-ansible_ssh_user=vagrant
-ansible_ssh_pass=vagrant
+[google2:vars]
+ansible_ssh_user=brett.condon
+
+[oracle:vars]
+ansible_ssh_user=ubuntu
+
+[azure:vars]
+ansible_ssh_user=lunchbox
+
+[aws:vars]
+ansible_ssh_user=ubuntu

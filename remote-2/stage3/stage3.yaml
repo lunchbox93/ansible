@@ -10,7 +10,6 @@
       name: postfix,postfix-mysql,postfix-doc,mariadb-client,mariadb-server,openssl,getmail4,rkhunter,python-mysqldb,binutils,dovecot-imapd,dovecot-pop3d,dovecot-mysql,dovecot-sieve,sudo,patch
 
   - name: Make sure pymysql is present
-    become: true # needed if the other tasks are not played as root
     pip:
       name: pymysql
       state: present
@@ -49,8 +48,8 @@
     ansible.builtin.service:
       name: clamav-daemon
       state: started
-  # - name: Change the authentication plugin of MySQL root user to mysql_native_password
-  #   shell: mysql -u root -e 'UPDATE mysql.user SET plugin="mysql_native_password" WHERE user="root" AND host="localhost"'
+  - name: Change the authentication plugin of MySQL root user to mysql_native_password
+    shell: mysql -u root -e 'UPDATE mysql.user SET plugin="mysql_native_password" WHERE user="root" AND host="localhost"'
   # - name: Flush Privileges
   #   shell: mysql -u root -e 'FLUSH PRIVILEGES'
   # - name: Set MySQL root password
